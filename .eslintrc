@@ -1,0 +1,17 @@
+{
+	"extends": [
+		"@magister_zito/javascript",
+		"prettier"
+	],
+	"plugins": [
+		"jest"
+	],
+	"env": {
+		"jest/globals": true
+	},
+	"ignorePatterns": [
+		"node_modules",
+		"coverage",
+		"dist"
+	]
+}

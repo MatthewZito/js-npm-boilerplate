@@ -1,0 +1,79 @@
+{
+  "name": "<project>",
+  "version": "0.0.0-development",
+  "description": "",
+  "license": "MIT",
+  "author": "Matthew Zito <matthewtzito@gmail.com> (goldmund)",
+  "files": [
+    "dist/"
+  ],
+  "exports": {
+    "require": "./dist/<project>.cjs.js",
+    "import": "./dist/<project>.es.js"
+  },
+  "main": "./dist/<project>.cjs.js",
+  "browser": "./dist/<project>.umd.min.js",
+  "module": "./dist/<project>.es.js",
+  "engines": {
+    "node": ">= 10"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "pnpm prebuild && pnpm build",
+    "clean": "rimraf ./coverage && pnpm prebuild",
+    "coveralls": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "flags": "cross-env NODE_OPTIONS=--experimental-vm-modules NODE_NO_WARNINGS=1",
+    "lint": "eslint --ext .js,.json --no-fix .",
+    "test": "pnpm flags && jest && pnpm clean",
+    "test:watch": "pnpm flags && jest --watch _tests_.* && pnpm clean",
+    "prebuild": "rimraf ./dist",
+    "prerelease": "pnpm pack && tar -xvzf *.tgz && rimraf package *.tgz",
+    "semantic-release": "semantic-release",
+    "doc": "jsdoc2md -d 1 -t README.hbs --files ./src/* > README.md"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "pnpm lint",
+      "pnpm test",
+      "pnpm doc"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/plugin-transform-runtime": "*",
+    "@babel/preset-env": "*",
+    "@commitlint/cli": "*",
+    "@commitlint/config-conventional": "*",
+    "@magister_zito/eslint-config-javascript": "*",
+    "@rollup/plugin-babel": "*",
+    "@rollup/plugin-commonjs": "*",
+    "@rollup/plugin-node-resolve": "*",
+    "babel-jest": "*",
+    "core-js": "*",
+    "coveralls": "*",
+    "cross-env": "*",
+    "cz-conventional-changelog": "*",
+    "eslint": "*",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jest": "*",
+    "husky": "*",
+    "jest": "*",
+    "jsdoc-to-markdown": "7.0.1",
+    "lint-staged": "*",
+    "prettier": "2.4.1",
+    "rimraf": "*",
+    "rollup": "*",
+    "rollup-plugin-terser": "*",
+    "semantic-release": "*"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
